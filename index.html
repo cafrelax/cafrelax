@@ -1,0 +1,200 @@
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cafrelax - El sabor que inspira</title>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Raleway', sans-serif;
+      background-color: #111;
+      color: #fff;
+    }
+    header {
+      background-image: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93');
+      background-size: cover;
+      background-position: center;
+      padding: 6rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 1;
+    }
+    header h1, header p {
+      position: relative;
+      z-index: 2;
+    }
+    header h1 {
+      font-family: 'Pacifico', cursive;
+      color: #c49b66;
+      font-size: 3.5rem;
+      margin: 0;
+      animation: fadeInDown 1s ease;
+    }
+    header p {
+      color: #eee;
+      font-size: 1.5rem;
+      margin-top: 1rem;
+      animation: fadeInUp 1s ease;
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      background-color: #1b1b1b;
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+    nav a {
+      color: #c49b66;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #fff;
+    }
+    section {
+      padding: 3rem 2rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+    h2 {
+      color: #c49b66;
+      border-bottom: 2px solid #c49b66;
+      padding-bottom: 0.5rem;
+    }
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+    }
+    .menu-item {
+      background-color: #1e1e1e;
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease;
+    }
+    .menu-item:hover {
+      transform: scale(1.05);
+    }
+    .menu-item h3 {
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .menu-item span {
+      color: #c49b66;
+      font-weight: bold;
+    }
+    .fidelidad {
+      text-align: center;
+      margin-top: 4rem;
+    }
+    .fidelidad p {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+    .btn-wsp {
+      display: inline-block;
+      background-color: #25D366;
+      color: #111;
+      font-weight: bold;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      text-decoration: none;
+      position: relative;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    .beneficios {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .beneficio {
+      background-color: #1b1b1b;
+      padding: 1.5rem;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+    .beneficio h3 {
+      color: #c49b66;
+      margin-bottom: 0.5rem;
+    }
+    .cta {
+      background-color: #c49b66;
+      color: #111;
+      font-weight: bold;
+      padding: 1.5rem;
+      text-align: center;
+      margin-top: 3rem;
+      border-radius: 8px;
+      font-size: 1.3rem;
+    }
+    #contacto {
+      text-align:center;
+      padding-top: 2rem;
+    }
+    .redes {
+      margin-top: 1rem;
+    }
+    .redes a {
+      color: #c49b66;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background-color: #1b1b1b;
+      color: #999;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Cafrelax</h1>
+    <p>Descubre el placer de una pausa con sabor</p>
+  </header>
+
+  <nav>
+    <a href="#menu">Menú</a>
+    <a href="#fidelidad">Fidelidad</a>
+    <a href="#beneficios">Beneficios</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+
+  <!-- Aquí va el mismo contenido del menú, fidelidad, beneficios, contacto y footer que ya tienes -->
+
+</body>
+</html>
