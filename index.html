@@ -1,22 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cafrelax</title>
   <style>
     /* Estilos generales */
+    :root{
+      --primary:#c49b63;
+      --primary-dark:#a87f4a;
+      --bg-overlay: rgba(0,0,0,0.6);
+    }
+
     body {
       margin: 0;
       font-family: 'Arial', sans-serif;
       background: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93') no-repeat center center/cover;
       color: #fff;
       text-align: center;
+      min-height: 100vh;
     }
 
     header {
-      background: rgba(0, 0, 0, 0.6);
+      background: var(--bg-overlay);
       padding: 60px 20px;
+      position: relative;
+      z-index: 1;
     }
 
     header h1 {
@@ -33,11 +42,14 @@
 
     .menu-section {
       margin: 40px 20px;
+      z-index: 1;
+      position: relative;
     }
 
     h2 {
       font-size: 28px;
       margin-bottom: 20px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
     }
 
     .options {
@@ -49,24 +61,21 @@
 
     .option {
       background: rgba(0, 0, 0, 0.6);
-      padding: 20px;
+      padding: 18px;
       border-radius: 12px;
       cursor: pointer;
-      transition: transform 0.3s;
+      transition: transform 0.25s, background 0.25s;
       width: 220px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.5);
     }
 
     .option:hover {
-      transform: scale(1.05);
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    .hidden {
-      display: none;
+      transform: translateY(-6px);
+      background: rgba(255, 255, 255, 0.12);
     }
 
     button {
-      background: #c49b63;
+      background: var(--primary);
       border: none;
       padding: 10px 20px;
       margin-top: 15px;
@@ -78,8 +87,151 @@
     }
 
     button:hover {
-      background: #a87f4a;
+      background: var(--primary-dark);
     }
+
+    .hidden { display: none; }
+
+    /* Botón flotante carrito */
+    .cart-fab {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+      cursor: pointer;
+      z-index: 1000;
+      transition: transform 0.15s;
+    }
+
+    .cart-fab:hover { transform: translateY(-6px); }
+
+    .cart-fab .icon {
+      font-size: 24px;
+      color: #fff;
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #ff4d4f;
+      color: #fff;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    /* Panel carrito deslizable */
+    .cart-panel {
+      position: fixed;
+      right: -420px; /* fuera de pantalla */
+      top: 0;
+      height: 100%;
+      width: 420px;
+      max-width: 95%;
+      background: rgba(10,10,10,0.95);
+      color: #fff;
+      box-shadow: -10px 0 40px rgba(0,0,0,0.6);
+      transition: right 0.35s ease;
+      z-index: 1100;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-panel.open { right: 0; }
+
+    .cart-header {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+
+    .cart-items {
+      margin-top: 14px;
+      overflow-y: auto;
+      flex: 1;
+      padding-right: 6px;
+    }
+
+    .cart-item {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.03);
+      margin-bottom: 10px;
+      gap:8px;
+    }
+
+    .item-left { text-align:left; }
+    .item-name { font-weight: 600; }
+    .item-meta { font-size: 13px; opacity: 0.8; }
+
+    .remove-btn {
+      background: transparent;
+      border: none;
+      color: #ff8080;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .cart-footer {
+      margin-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 12px;
+    }
+
+    .total-row {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:10px;
+      font-size:18px;
+      font-weight:700;
+    }
+
+    .send-btn {
+      width:100%;
+      padding:12px;
+      border-radius:10px;
+      background: linear-gradient(90deg,var(--primary),var(--primary-dark));
+      border:none;
+      color:#fff;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .empty-note {
+      opacity:0.8;
+      font-size:14px;
+      margin-top:20px;
+    }
+
+    /* Responsive */
+    @media(max-width:600px){
+      header h1 { font-size:38px; }
+      .option { width: 45%; padding: 12px; }
+      .cart-panel { width: 100%; max-width: 420px; }
+    }
+
   </style>
 </head>
 <body>
@@ -103,8 +255,9 @@
   <div class="menu-section hidden" id="comida">
     <h2>Menú de Comida</h2>
     <div class="options">
-      <div class="option" onclick="enviarPedido('Sánduche - $2.500')">🥪 Sánduche - $2.500</div>
-      <div class="option" onclick="enviarPedido('Brownie - $1.500')">🍫 Brownie - $1.500</div>
+      <div class="option" onclick="agregarAlCarrito({ nombre:'Sánduche', precio:2500, tipo:'Comida' })">🥪 Sánduche - $2.500</div>
+      <div class="option" onclick="agregarAlCarrito({ nombre:'Brownie', precio:1000, tipo:'Comida' })">🍫 Brownie - $1.000</div>
+      <div class="option" onclick="agregarAlCarrito({ nombre:'Panelita', precio:300, tipo:'Comida' })">🍯 Panelita - $300</div>
     </div>
     <button onclick="volver()">⬅ Volver</button>
   </div>
@@ -123,15 +276,15 @@
   <div class="menu-section hidden" id="tiposBebidas">
     <h2>Escoge tu bebida</h2>
     <div class="options">
-      <div class="option" onclick="enviarBebida('Tinto - $2.000')">☕ Tinto - $2.000</div>
-      <div class="option" onclick="enviarBebida('Café - $2.500')">☕ Café - $2.500</div>
-      <div class="option" onclick="enviarBebida('Capuccino - $3.000')">☕ Capuccino - $3.000</div>
-      <div class="option" onclick="enviarBebida('Café frío - $2.500')">🥶 Café frío - $2.500</div>
-      <div class="option" onclick="enviarBebida('Café bombón - $3.000')">🍫 Café bombón - $3.000</div>
-      <div class="option" onclick="enviarBebida('Café bombón con leche - $3.500')">🥛 Café bombón con leche - $3.500</div>
-      <div class="option" onclick="enviarBebida('Aromática de hierbabuena - $2.000')">🌿 Aromática de hierbabuena - $2.000</div>
-      <div class="option" onclick="enviarBebida('Aromática de manzanilla - $2.000')">🌼 Aromática de manzanilla - $2.000</div>
-      <div class="option" onclick="enviarBebida('Insta crem - $2.500')">☕ Insta crem - $2.500</div>
+      <div class="option" onclick="agregarBebidaAlCarrito('Tinto',2000)">☕ Tinto - $2.000</div>
+      <div class="option" onclick="agregarBebidaAlCarrito('Café',2500)">☕ Café - $2.500</div>
+      <div class="option" onclick="agregarBebidaAlCarrito('Capuccino',3000)">☕ Capuccino - $3.000</div>
+      <div class="option" onclick="agregarBebidaAlCarrito('Café frío',2500)">🥶 Café frío - $2.500</div>
+      <div class="option" onclick="agregarBebidaAlCarrito('Café bombón',3000)">🍫 Café bombón - $3.000</div>
+      <div class="option" onclick="agregarBebidaAlCarrito('Café bombón con leche',3500)">🥛 Café bombón con leche - $3.500</div>
+      <div class="option" onclick="agregarBebidaAlCarrito('Aromática de hierbabuena',2000)">🌿 Aromática de hierbabuena - $2.000</div>
+      <div class="option" onclick="agregarBebidaAlCarrito('Aromática de manzanilla',2000)">🌼 Aromática de manzanilla - $2.000</div>
+      <div class="option" onclick="agregarBebidaAlCarrito('Insta crem',2500)">☕ Insta crem - $2.500</div>
     </div>
     <button onclick="volver()">⬅ Volver</button>
   </div>
@@ -140,16 +293,75 @@
   <div class="menu-section hidden" id="combos">
     <h2>Combos</h2>
     <div class="options">
-      <div class="option" onclick="enviarPedido('Combo 1: Café + Brownie - $3.500')">☕ + 🍫 Café + Brownie - $3.500</div>
-      <div class="option" onclick="enviarPedido('Combo 2: Café + Sánduche - $5.000')">☕ + 🥪 Café + Sánduche - $5.000</div>
-      <div class="option" onclick="enviarPedido('Combo 3: Capuccino + Brownie - $4.000')">☕ + 🍫 Capuccino + Brownie - $4.000</div>
+      <div class="option" onclick="agregarAlCarrito({ nombre:'Combo 1: Café + Brownie', precio:3500, tipo:'Combo' })">☕ + 🍫 Café + Brownie - $3.500</div>
+      <div class="option" onclick="agregarAlCarrito({ nombre:'Combo 2: Café + Sánduche', precio:5000, tipo:'Combo' })">☕ + 🥪 Café + Sánduche - $5.000</div>
+      <div class="option" onclick="agregarAlCarrito({ nombre:'Combo 3: Capuccino + Brownie', precio:4000, tipo:'Combo' })">☕ + 🍫 Capuccino + Brownie - $4.000</div>
     </div>
     <button onclick="volver()">⬅ Volver</button>
   </div>
 
-  <script>
-    let tamañoSeleccionado = "";
+  <!-- Botón flotante del carrito -->
+  <div class="cart-fab" id="cartFab" title="Ver carrito (abrir)" onclick="toggleCart()">
+    <div class="icon">🛒</div>
+    <div class="cart-badge" id="cartCount">0</div>
+  </div>
 
+  <!-- Panel deslizable del carrito -->
+  <div class="cart-panel" id="cartPanel" aria-hidden="true">
+    <div class="cart-header">
+      <div>
+        <h3 style="margin:0">Tu carrito</h3>
+        <div style="font-size:13px; opacity:0.8;">Guarda automáticamente (sesión)</div>
+      </div>
+      <div>
+        <button onclick="cerrarCart()" style="background:transparent;border:none;color:#fff;font-size:22px;cursor:pointer">✕</button>
+      </div>
+    </div>
+
+    <div class="cart-items" id="cartItems">
+      <!-- Items dinámicos -->
+    </div>
+
+    <div class="cart-footer">
+      <div class="total-row">
+        <div>Total</div>
+        <div id="cartTotal">$0</div>
+      </div>
+      <button class="send-btn" id="sendBtn" onclick="enviarPorWhatsApp()" title="Enviar pedido por WhatsApp">📲 Enviar pedido por WhatsApp</button>
+      <div class="empty-note" id="emptyNote" style="display:none">Tu carrito está vacío. Agrega productos desde el menú.</div>
+    </div>
+  </div>
+
+  <script>
+    // Datos y estado
+    const PHONE = "573016160481"; // WhatsApp Colombia
+    let tamañoSeleccionado = "";
+    let carrito = [];
+
+    // Cargar carrito desde localStorage si existe
+    function cargarCarrito() {
+      try {
+        const raw = localStorage.getItem('cafrelax_carrito_v1');
+        if (raw) {
+          carrito = JSON.parse(raw);
+        } else {
+          carrito = [];
+        }
+      } catch(e) {
+        carrito = [];
+      }
+      actualizarUIcarrito();
+    }
+
+    function guardarCarrito() {
+      try {
+        localStorage.setItem('cafrelax_carrito_v1', JSON.stringify(carrito));
+      } catch(e) {
+        // ignorar si no se puede guardar
+      }
+    }
+
+    // Mostrar / ocultar secciones
     function mostrarMenu(menu) {
       document.querySelectorAll(".menu-section").forEach(sec => sec.classList.add("hidden"));
       document.getElementById(menu).classList.remove("hidden");
@@ -162,22 +374,172 @@
 
     function seleccionarTamaño(tamaño) {
       tamañoSeleccionado = tamaño;
+      // Avanzar a tipos de bebidas
       document.querySelectorAll(".menu-section").forEach(sec => sec.classList.add("hidden"));
       document.getElementById("tiposBebidas").classList.remove("hidden");
     }
 
-    function enviarPedido(producto) {
-      let mensaje = `Hola, quiero pedir: ${producto}`;
-      let url = `https://wa.me/573016160481?text=${encodeURIComponent(mensaje)}`;
-      window.open(url, "_blank");
+    // Agrega un producto genérico al carrito (comida, combos, etc)
+    function agregarAlCarrito(producto) {
+      const item = {
+        id: generarId(),
+        nombre: producto.nombre,
+        precio: producto.precio,
+        tipo: producto.tipo || 'Item',
+        meta: '' // info extra (size, notas)
+      };
+      carrito.push(item);
+      guardarCarrito();
+      actualizarUIcarrito();
+      abrirPanelTemporal();
     }
 
-    function enviarBebida(bebida) {
-      let mensaje = `Hola, quiero pedir: ${bebida} - Tamaño: ${tamañoSeleccionado}`;
-      let url = `https://wa.me/573016160481?text=${encodeURIComponent(mensaje)}`;
-      window.open(url, "_blank");
+    // Agregar bebida considerando tamañoSeleccionado
+    function agregarBebidaAlCarrito(nombre, precioBase) {
+      if (!tamañoSeleccionado) {
+        alert("Por favor, selecciona primero el tamaño de la bebida.");
+        mostrarMenu('bebida');
+        return;
+      }
+      // Si quieres diferenciar precios por tamaño en futuro, aquí puedes ajustar precioBase
+      const item = {
+        id: generarId(),
+        nombre: nombre,
+        precio: precioBase,
+        tipo: 'Bebida',
+        meta: `Tamaño: ${tamañoSeleccionado}`
+      };
+      carrito.push(item);
+      guardarCarrito();
+      actualizarUIcarrito();
+      abrirPanelTemporal();
+      // opcional: reset tamañoSeleccionado si quieres que se elija cada vez
+      tamañoSeleccionado = "";
     }
+
+    function generarId() {
+      return 'id_' + Math.random().toString(36).slice(2,9);
+    }
+
+    // UI carrito
+    function actualizarUIcarrito() {
+      const itemsCont = document.getElementById('cartItems');
+      const countEl = document.getElementById('cartCount');
+      const totalEl = document.getElementById('cartTotal');
+      const emptyNote = document.getElementById('emptyNote');
+
+      itemsCont.innerHTML = '';
+      if (carrito.length === 0) {
+        countEl.textContent = '0';
+        totalEl.textContent = formatCOP(0);
+        emptyNote.style.display = 'block';
+      } else {
+        emptyNote.style.display = 'none';
+        carrito.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'cart-item';
+          div.innerHTML = `
+            <div class="item-left">
+              <div class="item-name">${escapeHtml(item.nombre)}</div>
+              <div class="item-meta">${escapeHtml(item.meta || item.tipo)}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+              <div style="font-weight:700">${formatCOP(item.precio)}</div>
+              <button class="remove-btn" onclick="eliminarDelCarrito('${item.id}')">✕</button>
+            </div>
+          `;
+          itemsCont.appendChild(div);
+        });
+        countEl.textContent = String(carrito.length);
+        const total = carrito.reduce((s,i)=> s + Number(i.precio || 0), 0);
+        totalEl.textContent = formatCOP(total);
+      }
+    }
+
+    function eliminarDelCarrito(id) {
+      carrito = carrito.filter(i => i.id !== id);
+      guardarCarrito();
+      actualizarUIcarrito();
+    }
+
+    // Formato moneda COP
+    function formatCOP(value) {
+      // mostramos sin decimales, con separador de miles y signo $
+      return '$' + Number(value).toLocaleString('es-CO', { maximumFractionDigits: 0 });
+    }
+
+    // Enviar por WhatsApp
+    function enviarPorWhatsApp() {
+      if (carrito.length === 0) {
+        alert("Tu carrito está vacío.");
+        return;
+      }
+      const total = carrito.reduce((s,i)=> s + Number(i.precio || 0), 0);
+      let mensaje = `Hola, quiero pedir:\n`;
+      carrito.forEach((i, idx) => {
+        mensaje += `${idx+1}. ${i.nombre}`;
+        if (i.meta) mensaje += ` (${i.meta})`;
+        mensaje += ` - ${formatCOP(i.precio)}\n`;
+      });
+      mensaje += `\nTotal: ${formatCOP(total)}\n\nGracias 😊`;
+      const url = `https://wa.me/${PHONE}?text=${encodeURIComponent(mensaje)}`;
+      // Abrir WhatsApp en nueva pestaña
+      window.open(url, '_blank');
+    }
+
+    // Abrir / cerrar panel
+    function toggleCart() {
+      const panel = document.getElementById('cartPanel');
+      panel.classList.toggle('open');
+      panel.setAttribute('aria-hidden', !panel.classList.contains('open'));
+    }
+    function cerrarCart() {
+      const panel = document.getElementById('cartPanel');
+      panel.classList.remove('open');
+      panel.setAttribute('aria-hidden', 'true');
+    }
+
+    // Abrir el panel temporalmente para que el usuario vea lo que agregó
+    let openTimeout;
+    function abrirPanelTemporal() {
+      const panel = document.getElementById('cartPanel');
+      panel.classList.add('open');
+      panel.setAttribute('aria-hidden', 'false');
+      clearTimeout(openTimeout);
+      openTimeout = setTimeout(()=> {
+        // no cerramos automáticamente para que el usuario pueda interactuar; dejamos abierto
+      }, 1000);
+    }
+
+    // Protección básica contra inyección de HTML en nombres
+    function escapeHtml(text) {
+      if (!text && text !== 0) return '';
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Inicializar
+    cargarCarrito();
+
+    // Limpieza si usuario desea (opcional - no expuesta en UI por ahora)
+    // function vaciarCarrito() { carrito=[]; guardarCarrito(); actualizarUIcarrito(); }
+
+    // Evita que al recargar se pierda tamaño seleccionado en memoria (opcional)
+    window.addEventListener('beforeunload', () => {
+      // guardamos tamaño seleccionado por si se desea recuperar en loader futuro
+      localStorage.setItem('cafrelax_tamano_v1', tamañoSeleccionado || '');
+    });
+
+    // Si quieres recuperar tamaño seleccionado (no mostrado en UI actualmente)
+    (function recuperarTamano(){
+      const t = localStorage.getItem('cafrelax_tamano_v1');
+      if (t) tamañoSeleccionado = t;
+    })();
+
   </script>
-
 </body>
 </html>
